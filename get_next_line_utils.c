@@ -6,7 +6,7 @@
 /*   By: tcosse <tcosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/17 14:04:13 by tcosse            #+#    #+#             */
-/*   Updated: 2020/07/17 16:01:30 by tcosse           ###   ########.fr       */
+/*   Updated: 2020/07/19 18:20:33 by tcosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ int		is_line(char *str)
 {
 	int	i;
 
+	if (!str)
+		return(-1);
 	i = 0;
 	while (str[i])
 		if (str[i++] == '\n')
@@ -55,8 +57,11 @@ int		is_line(char *str)
 
 int		ft_error(char *str, char *line, char *buf)
 {
-	free(str);
-	free(line);
-	free(buf);
+	if (str)
+		free(str);
+	if (line)
+		free(line);
+	if (buf)
+		free(buf);
 	return (-1);
 }
