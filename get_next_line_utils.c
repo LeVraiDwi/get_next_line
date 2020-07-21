@@ -6,7 +6,7 @@
 /*   By: tcosse <tcosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/17 14:04:13 by tcosse            #+#    #+#             */
-/*   Updated: 2020/07/19 18:20:33 by tcosse           ###   ########.fr       */
+/*   Updated: 2020/07/20 18:48:27 by tcosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	int		i;
 
 	i = 0;
-	if (!s || start > (unsigned int)ft_strlen(s) || len == 0)
+	if (!s || start > (unsigned int)ft_strlen(s))
 		return (0);
 	if (!(str = (char *)malloc(sizeof(char) * (len + 1))))
 		return (0);
