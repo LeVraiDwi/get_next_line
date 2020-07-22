@@ -6,7 +6,7 @@
 /*   By: tcosse <tcosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/17 14:04:13 by tcosse            #+#    #+#             */
-/*   Updated: 2020/07/20 18:48:27 by tcosse           ###   ########.fr       */
+/*   Updated: 2020/07/22 16:41:11 by tcosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ size_t	ft_strlen(const char *str)
 	int c;
 
 	c = 0;
+	if (!str)
+		return (0);
 	while (*str++)
 		c++;
 	return (c);
@@ -47,11 +49,11 @@ int		is_line(char *str)
 	int	i;
 
 	if (!str)
-		return(-1);
+		return (-1);
 	i = 0;
 	while (str[i])
 		if (str[i++] == '\n')
-			return(i);
+			return (i);
 	return (-1);
 }
 
