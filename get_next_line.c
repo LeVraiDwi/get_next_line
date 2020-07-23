@@ -6,7 +6,7 @@
 /*   By: tcosse <tcosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 19:07:15 by tcosse            #+#    #+#             */
-/*   Updated: 2020/07/22 16:40:24 by tcosse           ###   ########.fr       */
+/*   Updated: 2020/07/23 13:23:25 by tcosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,13 @@ int		get_next_line(int fd, char **line)
 		return (0);
 	if (!(buf = malloc(sizeof(char) * BUFFER_SIZE + 1)))
 		return (ft_error(str, buf, *line));
+	if ((len = ft_read(&str, buf, fd)) == -1)
+		return (ft_error(buf, str, *line));
+	if(len == 0)
+	{
+		*line = 0;
+		return (0);
+	}
 	while (1)
 	{
 		if ((len = ft_read(&str, buf, fd)) == -1)
