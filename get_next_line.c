@@ -6,7 +6,7 @@
 /*   By: tcosse <tcosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 19:07:15 by tcosse            #+#    #+#             */
-/*   Updated: 2020/07/23 13:23:25 by tcosse           ###   ########.fr       */
+/*   Updated: 2020/07/23 16:00:14 by tcosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ int		ft_read(char **str, char *buf, int fd)
 {
 	int	len;
 
-	len = read(fd, buf, BUFFER_SIZE);
+	if ((len = read(fd, buf, BUFFER_SIZE)) == -1)
+		return (-1);
 	buf[len] = 0;
 	if (len)
 		if (!(*str = ft_strcat(*str, buf, len)))
@@ -80,24 +81,22 @@ int		get_next_line(int fd, char **line)
 	int			len;
 	int			l;
 
-	if (BUFFER_SIZE == 0)
-		return (0);
+	if (BUFFER_SIZE == 0 || !line)
+		return (-1);
 	if (!(buf = malloc(sizeof(char) * BUFFER_SIZE + 1)))
 		return (ft_error(str, buf, *line));
-	if ((len = ft_read(&str, buf, fd)) == -1)
-		return (ft_error(buf, str, *line));
-	if(len == 0)
-	{
-		*line = 0;
-		return (0);
-	}
 	while (1)
 	{
 		if ((len = ft_read(&str, buf, fd)) == -1)
 			return (ft_error(buf, str, *line));
 		if ((l = is_line(str)) != -1)
-		{
 			return (make_line(fd, &str, buf, line));
+		else if (!str && !len)
+		{
+			free(buf);
+			if (!(*line = ft_substr("", 0, 1)))
+				return (ft_error(buf, str, *line));
+			return (0);
 		}
 	}
 }
