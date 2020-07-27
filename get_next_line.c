@@ -6,11 +6,27 @@
 /*   By: tcosse <tcosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 19:07:15 by tcosse            #+#    #+#             */
-/*   Updated: 2020/07/23 16:00:14 by tcosse           ###   ########.fr       */
+/*   Updated: 2020/07/27 19:40:06 by tcosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+int		ft_flush(char *str, char **line, int l)
+{
+	if (!str)
+	{
+		if (!(*line = ft_substr("", 0, 1)))
+			return (ft_error(0, str, *line));
+	}
+	else if (l == -1)
+	{
+		if (!(*line = ft_substr(str, 0, ft_strlen(str))))
+			return (ft_error(str, 0, *line));
+		str = ft_free(str);
+	}
+	return (0);
+}
 
 char	*ft_strcat(char *str, char *buf, int len)
 {
@@ -34,7 +50,7 @@ char	*ft_strcat(char *str, char *buf, int len)
 	while (len--)
 		str[l++] = buf[i++];
 	str[l] = 0;
-	free(tmp);
+	tmp = ft_free(tmp);
 	return (str);
 }
 
@@ -59,16 +75,16 @@ int		make_line(int fd, char **str, char *buf, char **line)
 	l = is_line(*str);
 	if ((len = ft_read(str, buf, fd)) == -1)
 		return (ft_error(buf, *str, *line));
-	free(buf);
+	buf = ft_free(buf);
 	if (!(*line = ft_substr(*str, 0, l - 1)))
 		return (ft_error(*str, buf, *line));
 	buf = *str;
 	if (!(*str = ft_substr(*str, l, ft_strlen(*str) - 1)))
 		return (ft_error(*str, buf, *line));
-	free(buf);
+	buf = ft_free(buf);
 	if (!**str && !len)
 	{
-		free(*str);
+		*str = ft_free(*str);
 		return (0);
 	}
 	return (1);
@@ -81,7 +97,7 @@ int		get_next_line(int fd, char **line)
 	int			len;
 	int			l;
 
-	if (BUFFER_SIZE == 0 || !line)
+	if (BUFFER_SIZE <= 0 || !line)
 		return (-1);
 	if (!(buf = malloc(sizeof(char) * BUFFER_SIZE + 1)))
 		return (ft_error(str, buf, *line));
@@ -91,12 +107,10 @@ int		get_next_line(int fd, char **line)
 			return (ft_error(buf, str, *line));
 		if ((l = is_line(str)) != -1)
 			return (make_line(fd, &str, buf, line));
-		else if (!str && !len)
+		else if (!len)
 		{
-			free(buf);
-			if (!(*line = ft_substr("", 0, 1)))
-				return (ft_error(buf, str, *line));
-			return (0);
+			buf = ft_free(buf);
+			return (ft_flush(str, line, l));
 		}
 	}
 }

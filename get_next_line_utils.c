@@ -6,7 +6,7 @@
 /*   By: tcosse <tcosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/17 14:04:13 by tcosse            #+#    #+#             */
-/*   Updated: 2020/07/22 16:41:11 by tcosse           ###   ########.fr       */
+/*   Updated: 2020/07/27 19:35:16 by tcosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,10 @@ int		ft_error(char *str, char *line, char *buf)
 	if (buf)
 		free(buf);
 	return (-1);
+}
+
+char	*ft_free(char *str)
+{
+	free(str);
+	return (0);
 }
