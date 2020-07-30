@@ -6,7 +6,7 @@
 /*   By: tcosse <tcosse@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/20 19:07:15 by tcosse            #+#    #+#             */
-/*   Updated: 2020/07/27 19:40:06 by tcosse           ###   ########.fr       */
+/*   Updated: 2020/07/30 16:51:08 by tcosse           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,14 +67,11 @@ int		ft_read(char **str, char *buf, int fd)
 	return (len);
 }
 
-int		make_line(int fd, char **str, char *buf, char **line)
+int		make_line(char **str, char *buf, char **line)
 {
-	int	len;
 	int	l;
 
 	l = is_line(*str);
-	if ((len = ft_read(str, buf, fd)) == -1)
-		return (ft_error(buf, *str, *line));
 	buf = ft_free(buf);
 	if (!(*line = ft_substr(*str, 0, l - 1)))
 		return (ft_error(*str, buf, *line));
@@ -82,11 +79,6 @@ int		make_line(int fd, char **str, char *buf, char **line)
 	if (!(*str = ft_substr(*str, l, ft_strlen(*str) - 1)))
 		return (ft_error(*str, buf, *line));
 	buf = ft_free(buf);
-	if (!**str && !len)
-	{
-		*str = ft_free(*str);
-		return (0);
-	}
 	return (1);
 }
 
@@ -106,7 +98,7 @@ int		get_next_line(int fd, char **line)
 		if ((len = ft_read(&str, buf, fd)) == -1)
 			return (ft_error(buf, str, *line));
 		if ((l = is_line(str)) != -1)
-			return (make_line(fd, &str, buf, line));
+			return (make_line(&str, buf, line));
 		else if (!len)
 		{
 			buf = ft_free(buf);
